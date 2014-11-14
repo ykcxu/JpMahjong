@@ -7,8 +7,8 @@
  */
 
 class tile {
-   var $type = "";
-   var $num = 0;
+   var $type = "";//类型  p,s,m,z
+   var $num = 0;//数目
     function tile($k="empty",$n=0){
         $this->type = $k;
         $this->num = $n;

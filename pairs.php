@@ -13,7 +13,7 @@ require_once "./hands.php";
 #echo "拆分搭子:".json_encode(pairs::prePairs($hands));
 
 class pairs {
-    public static function prePairs($hands){
+    public static function prePairs($hands){   //遍历手牌中的搭子
           $tmpPairs = array();
           foreach($hands as $key => $value){
                 $a = str_split($key);
@@ -36,7 +36,7 @@ class pairs {
 
        return $tmpPairs;
     }
-    public static function type($pairs){
+    public static function type($pairs){   //判断搭子类型
       #  echo "这次判断的类型是".json_encode($pairs)."判断类型为";
         $nowtile = $pairs[0];
        # echo json_encode($nowtile)."\n";
