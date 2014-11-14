@@ -7,7 +7,7 @@
  */
 require_once "./hands.php";
 require_once "./pairs.php";
-$str = "111234s67p8999s";
+$str = "11123445678999s";
 $hands = hands::readString($str);
 
 
@@ -20,22 +20,49 @@ $handsplit = array();
 */
 $handsplit = $handsplit + array(
         "hands" => $hands,
+        "tiles" => array(),
+
     );
+$handsplit["status"]["startpile"]=1;
 
 $perResult = array();
 array_push($perResult,$handsplit);
 
 $perResult=process::split($perResult,10);
+#echo json_encode($perResult);
 $min=10;
 $array = array();
-echo count($perResult);
+/*echo count($perResult);
+function my_sort($a,$b)
+{
+    if (count($a)==count($b)) {
+        for($i=0;$i<count($a);$i++)
+        {
+            if (($a[$i]->num)>($b[$i]->num)) return 1;
+            if (($a[$i]->num)>($b[$i]->num)) return -1;
+
+        }
+        return 0;
+    }
+    elseif (count($a)>count($b)) return 1;
+    else return -1;
+
+}
 foreach($perResult as $test)
 {
-    if (process::xiangting($test)<$min) {$array=array();array_push($array,$test);$min=process::xiangting($test);}
-    if (process::xiangting($test)==$min) {array_push($array,$test);}
+  #  if (process::xiangting($test)<$min) {$array=array();array_push($array,$test);$min=process::xiangting($test);}
+   # if (process::xiangting($test)==$min) {array_push($array,$test);}
+  echo json_encode($test)."\n\n\n";
+    usort($test["tiles"],"my_sort");
+    echo '排序后'.json_encode($test)."\n\n\n";
+    array_push($array,$test);
+
 }
-$perResult = $array;
-#echo json_encode($test);
+*/
+#echo count($array);
+#$perResult = array_unique($array,SORT_STRING);
+# echo json_encode($perResult);
+$test = $perResult[0];
 echo "处理牌型".$str."中.....\n";
 echo "共有分类方法".count($perResult)."个\n";
 echo  "手牌处理完成,收获成型搭子共计".$test["status"]["tiles"]."个\n";
@@ -44,7 +71,8 @@ $mianzi = $test["status"]["shunzi"]+ $test["status"]["kezi"];
 $quetou = $test["status"]["quetou"];
 echo "其中,顺子".$test["status"]["shunzi"]."个,刻子".$test["status"]["kezi"]."个,对子".$test["status"]["dui"]."个,搭子".$test["status"]["dazi"]."个,雀头".$quetou."个\n";
 echo "剩余手牌".json_encode($test["hands"]);
-echo "向听数".(min($dazi,4-$mianzi)+max(4-$dazi-$mianzi,0)*2+1*(1-$quetou)-1);
+echo "向听数".(min($dazi,4-$mianzi)+max(4-$dazi-$mianzi,0)*2+1*(1-$quetou)-1)."\n";
+if (($mianzi==4) and ($quetou==1)) echo "少年你胡牌了！";
    # min（搭子数    ，4 -   面子数）+  max     （4-   面子书   -     搭子数   ，0）* 2 + 1 *（雀头有无） - 1
 
 
@@ -57,19 +85,23 @@ class process{
         foreach ($perResult as $handsplit){
  #             echo json_encode($handsplit)."\n";
               $hands = $handsplit["hands"];
-              $array = pairs::prePairs($hands);   //获取现有零散手牌中的搭子序列
+              $array = pairs::prePairs($hands,$handsplit["status"]["startpile"]);   //获取现有零散手牌中的搭子序列
              # echo json_encode($array);
               if (empty($array)) {
                  if (process::xiangting($handsplit)==$min)
                        array_push($tmpResult,$handsplit);
                   if (process::xiangting($handsplit)<$min)
-                  {$tmpResult=array();array_push($tmpResult,$handsplit);$min=process::xiangting($handsplit);}
+                  {  # echo "清除序列".json_encode($tmpResult)."\n";
+                     # echo "理由：现有手牌".json_encode($handsplit)."向听数".process::xiangting($handsplit)."小于最小向听".$min."\n";
+                      $tmpResult=array();array_push($tmpResult,$handsplit);$min=process::xiangting($handsplit);
+                  }
+
               }  //没有搭子则搜索达到终点，直接返回
               else {
               foreach($array as $pairs){
   #                echo json_encode($pairs)."\n";
                   $handsplitbak = $handsplit;   //备份手牌分配序列
-                  $handsplitbak["tiles"]= array();
+                 # $handsplitbak["tiles"]= array();
    #               echo (hands::havePairs($hands,$pairs))."\n";
                   if (hands::havePairs($hands,$pairs)) {   //遍历搭子序列
                      $handsplitbak["hands"]=hands::delPairs($hands,$pairs); //搭子ok则删除零散手牌中对应的牌
@@ -83,8 +115,13 @@ class process{
                      else   $handsplitbak["status"][$t]+=1;
 
                      $handsplitbak["status"]["tiles"]+=1;   //更新序列状态
+                     $handsplitbak["status"]["startpile"]=$pairs[0];
                      array_push($handsplitbak["tiles"],$pairs);
+                     if (process::xiangting($handsplitbak)<$min) $min=process::xiangting($handsplitbak);
+
+                 #   echo "插入".json_encode($pairs)."后，序列变为".json_encode($handsplitbak["tiles"])."\n";
                      array_push($tmpResult,$handsplitbak);   //更新后的序列加入结果存储地址
+
                      #echo json_encode($tmpResult)."\n";
                      $k=1;   //匹配开关置1，表示此次搜索找到新组合
                     }

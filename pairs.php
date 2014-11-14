@@ -6,25 +6,32 @@
  * Time: 下午6:31
  */
 require_once "./hands.php";
-#$str = "11z11s1233p";
-#$hands = hands::readString($str);
-#echo "输入牌型:".$str."\n";
-#echo "手牌模组:".json_encode($hands)."\n";
-#echo "拆分搭子:".json_encode(pairs::prePairs($hands));
-
+/*$str = "11z11s1233p";
+$hands = hands::readString($str);
+echo "输入牌型:".$str."\n";
+echo "手牌模组:".json_encode($hands)."\n";
+echo "拆分搭子:".json_encode(pairs::prePairs($hands,11));
+# echo pairs::type(array(9,10));
+*/
 class pairs {
-    public static function prePairs($hands){   //遍历手牌中的搭子
+    public static function prePairs($hands,$tile){   //遍历手牌中的搭子
           $tmpPairs = array();
+          $k =0;
+         # echo "传进来的起始牌是:".$tile."\n";
           foreach($hands as $key => $value){
-                $a = str_split($key);
-                $nowtile = new tile($a[1],$a[0]);
-                $nexttile = new tile($a[1],$a[0]+1);
-                $thirdtile = new tile($a[1],$a[0]+2);
+                $thirdtile =0;
+                $nowtile = $key;
+                if ($key%9==0) {$nexttile=100;$thirdtile=100;}
+                else $nexttile = $key+1;
+                if ($key%9==8) {$thirdtile=100;}
+                else $thirdtile+=($key+2);
+                if ($tile <= $nowtile) $k=1;
+                if ($k==0) continue;
                 $kezi = array($nowtile,$nowtile,$nowtile);
                 if (hands::havePairs($hands,$kezi)) array_push($tmpPairs,$kezi);
                 $dui = array($nowtile,$nowtile);
                 if (hands::havePairs($hands,$dui)) array_push($tmpPairs,$dui);
-                if ($a[1]=="z") continue;
+                if ($nowtile>27) continue;
                 $shunzi = array($nowtile,$nexttile,$thirdtile);
                 if (hands::havePairs($hands,$shunzi)) array_push($tmpPairs,$shunzi);
                 $dazi = array($nowtile,$nexttile);
@@ -33,17 +40,21 @@ class pairs {
                 if (hands::havePairs($hands,$dazi)) array_push($tmpPairs,$dazi);
               }
      #  echo "这次发现".count($tmpPairs)."个,判断值为".empty($tmpPairs)."\n";
+       # echo "返回的数据是：".json_encode($tmpPairs)."\n";
 
        return $tmpPairs;
     }
     public static function type($pairs){   //判断搭子类型
       #  echo "这次判断的类型是".json_encode($pairs)."判断类型为";
+        $thirdtile =0;
         $nowtile = $pairs[0];
-       # echo json_encode($nowtile)."\n";
-        $nexttile = new tile($nowtile->type,$nowtile->num+1);
-        $thirdtile = new tile($nowtile->type,$nowtile->num+2);
+        if ($nowtile%9==0) {$nexttile=100;$thirdtile=100;}
+        else $nexttile = $nowtile+1;
+        if ($nowtile%9==8) {$thirdtile=100;}
+        else $thirdtile+=($nowtile+2);
         #echo json_encode($nexttile)."\n";
         #echo json_encode($thirdtile)."\n";
+        #echo "这次判断的类型是".json_encode($pairs)."判断类型为error，生成的三个数组分别是".json_encode($shunzi);
         $kezi = array($nowtile,$nowtile,$nowtile);
         if ($pairs==$kezi) return "kezi";
         $dui = array($nowtile,$nowtile);
@@ -57,7 +68,7 @@ class pairs {
         $dazi = array($nowtile,$thirdtile);
         if ($pairs==$dazi) return "dazi";
 
-       # echo "这次判断的类型是".json_encode($pairs)."判断类型为error";
+        echo "这次判断的类型是".json_encode($pairs)."判断类型为error，生成的三个数组分别是".json_encode($shunzi);
         return "error";
 
     }
