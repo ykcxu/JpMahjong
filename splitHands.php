@@ -7,17 +7,31 @@
  */
 require_once "./hands.php";
 require_once "./pairs.php";
-$str = "11123445678999s";
-$hands = hands::readString($str);
+$str = "1577m222333888p";
+
+$xiangting = process::cal($str);
+if ($xiangting==-1) echo("胡牌");
+$youxiao = array();
+for ($i=1;$i<=34;$i++){
+    if (process::cal($str.tile::numtoword($i))<$xiangting) array_push($youxiao,$i);
+}
+echo "分析牌型:".$str."\n";
+echo "有效章有:";
+foreach($youxiao as $i)
+{
+    echo tile::numtoword($i)."   ";
+}
+// $hands = hands::readString($str);
 
 
-$handsplit = array();
+//$handsplit = array();
 /* 定义handsplit
     当前未分手牌   $hands
     当前已分模组  $tiles数组
     当前手牌状态   $status  记录顺子数，面子数，搭子数，国士无双完成数，tiles模组数量
 
 */
+/*
 $handsplit = $handsplit + array(
         "hands" => $hands,
         "tiles" => array(),
@@ -32,6 +46,7 @@ $perResult=process::split($perResult,10);
 #echo json_encode($perResult);
 $min=10;
 $array = array();
+*/
 /*echo count($perResult);
 function my_sort($a,$b)
 {
@@ -62,7 +77,7 @@ foreach($perResult as $test)
 #echo count($array);
 #$perResult = array_unique($array,SORT_STRING);
 # echo json_encode($perResult);
-$test = $perResult[0];
+/*$test = $perResult[0];
 echo "处理牌型".$str."中.....\n";
 echo "共有分类方法".count($perResult)."个\n";
 echo  "手牌处理完成,收获成型搭子共计".$test["status"]["tiles"]."个\n";
@@ -74,9 +89,37 @@ echo "剩余手牌".json_encode($test["hands"]);
 echo "向听数".(min($dazi,4-$mianzi)+max(4-$dazi-$mianzi,0)*2+1*(1-$quetou)-1)."\n";
 if (($mianzi==4) and ($quetou==1)) echo "少年你胡牌了！";
    # min（搭子数    ，4 -   面子数）+  max     （4-   面子书   -     搭子数   ，0）* 2 + 1 *（雀头有无） - 1
-
+*/
 
 class process{
+    public static function cal($str){//判断听牌
+        $hands = hands::readString($str); //读取字符串
+        //初始化手牌序列
+        $handsplit = array();
+        /* 定义handsplit
+            当前未分手牌   $hands
+            当前已分模组  $tiles数组
+            当前手牌状态   $status  记录顺子数，面子数，搭子数，国士无双完成数，tiles模组数量
+
+        */
+        $handsplit = $handsplit + array(
+                "hands" => $hands,
+                "tiles" => array(),
+
+            );
+        $handsplit["status"]["startpile"]=1;
+
+        $perResult = array();
+        array_push($perResult,$handsplit);
+        //分析牌型
+        $perResult=process::split($perResult,10);
+
+        $test = $perResult[0];//抽取结果之一
+
+        //计算向听数
+        return process::xiangting($test);
+
+    }
     public static function split($perResult,$min){
        # if ($deep>3) return $perResult;  防止搜索过深，设定深度开关
         $k=0;
