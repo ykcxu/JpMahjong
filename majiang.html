@@ -1,0 +1,300 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>打麻将真开心啊!</title>
+  <style>
+  .container {
+    margin-right: auto;
+    margin-left: auto;
+    width: 980px;
+    border-radius: 4px;
+    box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.26);
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  .tile {
+    width: 44px;
+    height: 53px;
+    display: inline-block;
+  }
+  .clearfix:before {
+    display: table;
+    content: " "
+  }
+  .clearfix:after {
+    clear: both
+  }
+  .m1 {
+    background-image: url(res/m1.png);
+  }
+  .m2 {
+    background-image: url(res/m2.png);
+  }
+  .m3 {
+    background-image: url(res/m3.png);
+  }
+  .m1 {
+    background-image: url(res/m1.png);
+  }
+  .m4 {
+    background-image: url(res/m4.png);
+  }
+  .m5 {
+    background-image: url(res/m5.png);
+  }
+  .m6 {
+    background-image: url(res/m6.png);
+  }
+  .m7 {
+    background-image: url(res/m7.png);
+  }
+  .m8 {
+    background-image: url(res/m8.png);
+  }
+  .m9 {
+    background-image: url(res/m9.png);
+  }
+  .s1 {
+    background-image: url(res/s1.png);
+  }
+  .s2 {
+    background-image: url(res/s2.png);
+  }
+  .s3 {
+    background-image: url(res/s3.png);
+  }
+  .s4 {
+    background-image: url(res/s4.png);
+  }
+  .s5 {
+    background-image: url(res/s5.png);
+  }
+  .s6 {
+    background-image: url(res/s6.png);
+  }
+  .s7 {
+    background-image: url(res/s7.png);
+  }
+  .s8 {
+    background-image: url(res/s8.png);
+  }
+  .s9 {
+    background-image: url(res/s9.png);
+  }
+  .p1 {
+    background-image: url(res/p1.png);
+  }
+  .p2 {
+    background-image: url(res/p2.png);
+  }
+  .p3 {
+    background-image: url(res/p3.png);
+  }
+  .p4 {
+    background-image: url(res/p4.png);
+  }
+  .p5 {
+    background-image: url(res/p5.png);
+  }
+  .p6 {
+    background-image: url(res/p6.png);
+  }
+  .p7 {
+    background-image: url(res/p7.png);
+  }
+  .p8 {
+    background-image: url(res/p8.png);
+  }
+  .p9 {
+    background-image: url(res/p9.png);
+  }
+  .z1 {
+    background-image: url(res/z1.png);
+  }
+  .z2 {
+    background-image: url(res/z2.png);
+  }
+  .z3 {
+    background-image: url(res/z3.png);
+  }
+  .z4 {
+    background-image: url(res/z4.png);
+  }
+  .z5 {
+    background-image: url(res/z5.png);
+  }
+  .z6 {
+    background-image: url(res/z6.png);
+  }
+  .z7 {
+    background-image: url(res/z7.png);
+  }
+  .card {
+    width: 48%;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.26);
+    margin: 8px;
+    padding: 8px;
+    display: inline-block;
+    -webkit-user-select: none;
+  }
+  .card-block {
+    box-sizing: border-box;
+    box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.26);
+    margin: 8px;
+    padding: 8px;
+    -webkit-user-select: none;
+  }
+  .btn {
+    width: 120px;
+    padding: 12px 14px;
+    border: none;
+    border-radius: 30px;
+    font-size: 20px;
+    outline: none;
+  }
+  .btn-danger {
+    background-color: #c53f2a;
+    color: #ffffff;
+  }
+  .btn-success {
+    background-color: #5cb85c;
+    color: #ffffff;
+  }
+  .btn-primary {
+    background-color: #2196f3;
+    color: #ffffff;
+  }
+  .errorTip {
+    color: #f44336;
+    display: none;
+    text-align: center;
+  }
+  .btn-group {
+    text-align: center;
+    margin-top: 20px;
+  }
+  </style>
+</head>
+<body>
+  <div class="container clearfix">
+    <h3>选择区</h3>
+    <div class="clearfix card tiles">
+      <h4>万子</h4>
+      <span class="tile m1"></span>
+      <span class="tile m2"></span>
+      <span class="tile m3"></span>
+      <span class="tile m4"></span>
+      <span class="tile m5"></span>
+      <span class="tile m6"></span>
+      <span class="tile m7"></span>
+      <span class="tile m8"></span>
+      <span class="tile m9"></span>
+      <h4>索子</h4>
+      <span class="tile s1"></span>
+      <span class="tile s2"></span>
+      <span class="tile s3"></span>
+      <span class="tile s4"></span>
+      <span class="tile s5"></span>
+      <span class="tile s6"></span>
+      <span class="tile s7"></span>
+      <span class="tile s8"></span>
+      <span class="tile s9"></span>
+    </div>
+    <div class="clearfix card tiles">
+      <h4>饼子</h4>
+      <span class="tile p1"></span>
+      <span class="tile p2"></span>
+      <span class="tile p3"></span>
+      <span class="tile p4"></span>
+      <span class="tile p5"></span>
+      <span class="tile p6"></span>
+      <span class="tile p7"></span>
+      <span class="tile p8"></span>
+      <span class="tile p9"></span>
+      <h4>字</h4>
+      <span class="tile z1"></span>
+      <span class="tile z2"></span>
+      <span class="tile z3"></span>
+      <span class="tile z4"></span>
+      <span class="tile z5"></span>
+      <span class="tile z6"></span>
+      <span class="tile z7"></span>
+    </div>
+    <h3>手牌</h3>
+    <div class="card-block">
+      <p>选择手牌并确定来检测你的牌型.</p>
+      <div id="hands"></div>
+      <p class="errorTip"></p>
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary" id="check">检测</button>
+        <button type="button" class="btn btn-success" id="sort">整理</button>
+        <button type="button" class="btn btn-danger" id="remove">清空</button>
+      </div>
+    </div>
+  </div>
+  <script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+  <script>
+  var hands = [];
+  var vaildHands = function(hands, newHand) {
+    if (hands.length > 13) {
+      $('.errorTip').text('手牌不能超过13张!').show();
+      return false;
+    }
+    var tileLimit = 0;
+    for (var i = 0; i < hands.length; i++) {
+      if (hands[i] === newHand) {
+        tileLimit++;
+      }
+    };
+    if (tileLimit >= 4) {
+      $('.errorTip').text('单张牌不能超过4张').show();
+      return false;
+    }
+    $('.errorTip').hide();
+    return true;
+  }
+  $('.tile').on('click', function(event) {
+    var newHand = $(this).attr('class').substr(5, 6);
+    if (vaildHands(hands, newHand)) {
+      hands.push(newHand);
+      $('#hands span').remove();
+      for (var i = 0; i < hands.length; i++) {
+        $('#hands').append('<span class="tile ' + hands[i] + '"></span>');
+      };
+    }
+  });
+  $('#sort').on('click', function(event) {
+    hands = hands.sort();
+    $('#hands span').remove();
+    $('.errorTip').hide();
+    for (var i = 0; i < hands.length; i++) {
+      $('#hands').append('<span class="tile ' + hands[i] + '"></span>');
+    };
+  });
+  $('#remove').on('click', function(event) {
+    hands = [];
+    $('#hands span').remove();
+    $('.errorTip').hide();
+  });
+  $('#check').on('click', function(event) {
+    $.ajax({
+        url: '/path/to/file',
+        type: 'POST',
+        data: {
+          hands: hands
+        }
+      })
+      .done(function() {
+        console.log("success");
+      })
+      .fail(function() {
+        console.log("error");
+      })
+      .always(function() {
+        console.log("complete");
+      });
+  });
+  </script>
+</body>
+</html>
